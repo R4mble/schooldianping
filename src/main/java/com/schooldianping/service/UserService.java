@@ -5,6 +5,8 @@ import com.schooldianping.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Ramble
  */
@@ -28,6 +30,10 @@ public class UserService {
     }
 
     public boolean login(User user) {
+
+    }
+
+    public void getUserList(List<Integer> uidList) {
 
     }
 }
