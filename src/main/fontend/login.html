@@ -15,22 +15,34 @@
     </body>
 
     <script>
+    const baseUrl = "http://localhost:10086";
+
     $("#login").click(function(){
         nameOrEmail = $("#nameOrEmail").val()
         password = $("#password").val()
         $.ajax({
-            url:"http://localhost:10086/users/login",
+            url: baseUrl + "/users/login",
             type:"POST",
             data: "nameOrEmail=" + nameOrEmail + "&" + "password=" + password,
-            success:function(){
-                
+            success:function(data){
+                console.log(data.user);
+                getFollowingList(data.user);
             }
         });
     });
 
-    $("#register").click(function(){
-        
-    });
+    const getFollowingList = (jwt) => {
+        $.ajax({
+            url: baseUrl + "/following",
+            type:"GET",
+            headers: {'Authorization': jwt},
+            success:function(data){
+                console.log(data)
+            }
+        });
+    }
+
+
 
     </script>
 </html>

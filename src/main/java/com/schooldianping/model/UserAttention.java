@@ -9,5 +9,6 @@ import lombok.Data;
 public class UserAttention {
 
     private Integer id;
-    private int[] following;
+
+    private Integer[] following;
 }

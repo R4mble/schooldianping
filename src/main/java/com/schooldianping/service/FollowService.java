@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.schooldianping.mapper.FollowMapper;
 import com.schooldianping.model.User;
+import com.schooldianping.model.UserAttention;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.http.ResponseEntity;
@@ -37,8 +38,8 @@ public class FollowService {
     }
 
     public List<User> followingList(Integer id) {
-        List<Integer> uidList = followMapper.followingList(id);
-        return userService.getUserList(uidList);
+        UserAttention userAttention = followMapper.followingList(id);
+        return userService.getUserList(userAttention.getFollowing());
     }
 
     public boolean followAnyone(Integer id) {

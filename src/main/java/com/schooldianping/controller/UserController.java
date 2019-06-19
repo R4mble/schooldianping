@@ -2,6 +2,7 @@ package com.schooldianping.controller;
 
 import com.schooldianping.constant.WebConstants;
 import com.schooldianping.model.User;
+import com.schooldianping.service.JwtService;
 import com.schooldianping.service.UserService;
 import com.schooldianping.util.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Ramble
@@ -23,6 +26,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JwtService jwtService;
 
     @PostMapping("/users")
     public ResponseEntity createUser(@Valid @RequestBody User user) {
@@ -47,7 +53,8 @@ public class UserController {
         User user = userService.login(nameOrEmail, password);
         request.getSession().setAttribute(WebConstants.LOGIN_SESSION_KEY, user);
         CommonUtils.setCookie(response, user.getId());
-        return ResponseEntity.ok("登录成功");
+        Map<String, Object> map = new HashMap<>(1);
+        map.put("user", jwtService.toToken(user));
+        return ResponseEntity.ok(map);
     }
-
 }

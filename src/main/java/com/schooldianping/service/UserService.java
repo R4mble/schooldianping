@@ -7,6 +7,7 @@ import com.schooldianping.util.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,8 +57,11 @@ public class UserService {
     }
 
 
-    public List<User> getUserList(List<Integer> uidList) {
-
-        return null;
+    public List<User> getUserList(Integer[] uidList) {
+        List<User> users = new ArrayList<>();
+        for (Integer uid : uidList) {
+            users.add(userMapper.findById(uid));
+        }
+        return users;
     }
 }

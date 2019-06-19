@@ -1,6 +1,7 @@
 package com.schooldianping.mapper;
 
 import com.schooldianping.model.User;
+import com.schooldianping.model.UserAttention;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,7 +20,7 @@ public interface FollowMapper {
      * @param id 用户id
      * @return 关注列表uid
      */
-    List<Integer> followingList(Integer id);
+    UserAttention followingList(Integer id);
 
     /**
      * 根据id查询用户

@@ -2,13 +2,13 @@ package com.schooldianping.controller;
 
 import com.schooldianping.model.User;
 import com.schooldianping.service.FollowService;
+import com.schooldianping.util.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -25,9 +25,11 @@ public class FollowController {
         return followService.follow(id, toId);
     }
 
-    @PostMapping("/following")
-    public List<User> follow(@RequestParam Integer id) {
-        return followService.followingList(id);
+
+
+    @GetMapping("/following")
+    public List<User> follow(@AuthenticationPrincipal User user) {
+        return followService.followingList(user.getId());
     }
 
     @DeleteMapping("/following")

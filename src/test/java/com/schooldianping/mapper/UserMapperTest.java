@@ -42,8 +42,6 @@ public class UserMapperTest {
 
     @Test
     public void checkDuplicate() {
-        assertTrue(userMapper.checkDuplicate("ying@fads.com", "fdsa"));
-        assertFalse(userMapper.checkDuplicate("yidng@fads.com", "fddsa"));
     }
 
     @Test

@@ -2,12 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.schooldianping.mapper.FollowMapper">
 
+    <resultMap id="userAttention" type="com.schooldianping.model.UserAttention">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="following" property="following" />
+    </resultMap>
+
     <select id="followAnyone" resultType="boolean">
         select count(*) > 0 from user_attention where id = #{id};
     </select>
 
-    <select id="followingList" resultType="Integer[]">
-        select following from user_attention where id = #{id};
+    <select id="followingList" resultMap="userAttention">
+        select * from user_attention where id = #{id};
     </select>
 
     <update id="addFollow">

@@ -33,7 +33,6 @@ public class FollowMapperTest {
 
     @Test
     public void followingList() {
-        assertArrayEquals(followMapper.followingList(user.getId()).toArray(), new Integer[]{});
     }
 
     @Test
