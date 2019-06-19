@@ -29,7 +29,7 @@ public interface UserMapper {
      * @param username 用户名
      * @param password 加密后的密码
      */
-    void createUser(@Param("email") String email, @Param("username") String username, @Param("password") String password);
+    Integer createUser(@Param("email") String email, @Param("username") String username, @Param("password") String password);
 
     /**
      * 检查新增用户的邮箱或用户名是否已存在
@@ -38,15 +38,12 @@ public interface UserMapper {
      * @param username 用户名
      * @return 状态
      */
-    boolean checkDuplicate(@Param("email") String email, @Param("username") String username);
+    boolean checkDuplicateEmail(String email);
 
-    /**
-     * 检查新增用户的邮箱或用户名是否已存在
-     *
-     * @param nameOrEmail 用户email或者name
-     * @param isEmail 是不是email
-     * @return 密码或者空
-     */
+
+    boolean checkDuplicateName(String name);
+
+
     User getPasswordByEmail(String Email);
 
 

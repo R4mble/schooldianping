@@ -1,14 +1,12 @@
 package com.schooldianping.service;
 
-import com.schooldianping.exception.UserNotExistException;
-import com.schooldianping.exception.WrongPasswordException;
+import com.schooldianping.exception.TipException;
 import com.schooldianping.mapper.UserMapper;
 import com.schooldianping.model.User;
 import com.schooldianping.util.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.regex.Pattern;
 import java.util.List;
 
 /**
@@ -21,12 +19,16 @@ public class UserService {
     private UserMapper userMapper;
 
     public boolean createUser(String email, String username, String password) {
-        boolean alreadyExists = userMapper.checkDuplicate(email, username);
-        if (alreadyExists) {
-            return false;
+
+        if (userMapper.checkDuplicateEmail(email)) {
+            throw new TipException("该邮箱已注册, 是否直接登录");
         }
-        userMapper.createUser(email, username, CommonUtils.encrypt(password));
-        return true;
+
+        if (userMapper.checkDuplicateName(username)) {
+            throw new TipException("用户名" + username + "已被注册, 尝试下" + username + "123");
+        }
+
+        return userMapper.createUser(email, username, CommonUtils.encrypt(password)) == 1;
     }
 
     public User getUserById(Integer id) {
@@ -41,13 +43,13 @@ public class UserService {
                         userMapper.getPasswordByName(nameOrEmail);
 
         if (user == null) {
-            throw new UserNotExistException();
+            throw new TipException("该用户不存在");
         }
 
         boolean pass = CommonUtils.checkPassword(password, user.getPassword());
 
         if (!pass) {
-            throw new WrongPasswordException();
+            throw new TipException("用户名或密码错误");
         }
 
         return user;
