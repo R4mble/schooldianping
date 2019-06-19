@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Pattern;
+import java.util.List;
 
 /**
  * @author Ramble
@@ -38,5 +39,9 @@ public class UserService {
         } else {
             return encryptService.checkPassword(password, realPassword);
         }
+    }
+
+    public void getUserList(List<Integer> uidList) {
+
     }
 }

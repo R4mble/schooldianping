@@ -9,3 +9,8 @@ age smallint
 
 
 ALTER USER postgres WITH PASSWORD '1234';
+
+create table user_attention (
+id int primary key,
+following int[] not null
+)
