@@ -1,6 +1,7 @@
 package com.schooldianping.controller;
 
 import com.schooldianping.model.User;
+import com.schooldianping.pojo.UserPublic;
 import com.schooldianping.service.FollowService;
 import com.schooldianping.util.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class FollowController {
 
 
     @GetMapping("/following")
-    public List<User> follow(@AuthenticationPrincipal User user) {
+    public List<UserPublic> follow(@AuthenticationPrincipal User user) {
         return followService.followingList(user.getId());
     }
 

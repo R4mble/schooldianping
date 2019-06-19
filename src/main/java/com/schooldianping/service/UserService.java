@@ -3,6 +3,7 @@ package com.schooldianping.service;
 import com.schooldianping.exception.TipException;
 import com.schooldianping.mapper.UserMapper;
 import com.schooldianping.model.User;
+import com.schooldianping.pojo.UserPublic;
 import com.schooldianping.util.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,10 +58,10 @@ public class UserService {
     }
 
 
-    public List<User> getUserList(Integer[] uidList) {
-        List<User> users = new ArrayList<>();
+    public List<UserPublic> getUserList(Integer[] uidList) {
+        List<UserPublic> users = new ArrayList<>();
         for (Integer uid : uidList) {
-            users.add(userMapper.findById(uid));
+            users.add(new UserPublic(userMapper.findById(uid)));
         }
         return users;
     }

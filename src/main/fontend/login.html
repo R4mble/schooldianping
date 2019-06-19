@@ -7,11 +7,17 @@
     </head>
 
     <body>
-            <b>用户登录</b><br>
+            <div id="loginForm">
+                <b>用户登录</b><br>
                 用户名或邮箱<input type="text" id="nameOrEmail"><br>
                   密码<input type="password" id="password"><br>
                     <button id="login">登录</button>
                     <a href="register.html">注册</a>
+            </div>
+
+            <div id="followList">
+
+            </div>
     </body>
 
     <script>
@@ -25,7 +31,7 @@
             type:"POST",
             data: "nameOrEmail=" + nameOrEmail + "&" + "password=" + password,
             success:function(data){
-                console.log(data.user);
+                $("#loginForm").remove();
                 getFollowingList(data.user);
             }
         });
@@ -37,7 +43,12 @@
             type:"GET",
             headers: {'Authorization': jwt},
             success:function(data){
-                console.log(data)
+                $("#followList").append("<h1>我关注的人:</h1>")
+                for (let i=0; i<data.length; i++) {
+                    $("#followList").append("<li>").append(data[i].email + " " + data[i].username)
+                    .append("<button>取消关注</button>")
+                    .append("</li>")
+                }
             }
         });
     }
