@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 /**
  * @author Ramble
@@ -27,9 +28,11 @@ public class UserController {
         return "hello";
     }
 
+    @Valid
     @PostMapping("/users/login")
-    public boolean userLogin(@Valid @RequestBody User user) {
-        return userService.login(user);
+    public boolean userLogin(@NotBlank(message = "用户名或邮箱不能为空") @RequestParam String nameOrEmail,
+                             @NotBlank(message = "密码不能为空") @RequestParam String password) {
+        return userService.login(nameOrEmail, password);
     }
 
 }

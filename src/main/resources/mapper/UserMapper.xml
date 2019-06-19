@@ -12,4 +12,17 @@
     <select id="checkDuplicate" resultType="boolean">
         select count(*) > 0 from users where email = #{email} or username = #{username}
     </select>
+
+    <select id="getPasswordByEmailOrName">
+        select password from users
+        where
+        <choose>
+            <when test="#{isEmail} == true">
+                email = #{nameOrEmail}
+            </when>
+            <otherwise>
+                username = #{nameOrEmail}
+            </otherwise>
+        </choose>
+    </select>
 </mapper>

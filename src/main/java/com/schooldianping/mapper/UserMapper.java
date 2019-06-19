@@ -37,8 +37,16 @@ public interface UserMapper {
      *
      * @param email 用户email
      * @param username 用户名
-     * @param password 加密后的密码
      * @return 状态
      */
     boolean checkDuplicate(@Param("email") String email, @Param("username") String username);
+
+    /**
+     * 检查新增用户的邮箱或用户名是否已存在
+     *
+     * @param nameOrEmail 用户email或者name
+     * @param isEmail 是不是email
+     * @return 密码或者空
+     */
+    String getPasswordByEmailOrName(@Param("nameOrEmail") String nameOrEmail, @Param("isEmail") boolean isEmail);
 }

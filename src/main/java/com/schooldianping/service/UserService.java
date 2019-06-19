@@ -5,6 +5,8 @@ import com.schooldianping.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Pattern;
+
 /**
  * @author Ramble
  */
@@ -22,12 +24,19 @@ public class UserService {
         if (alreadyExists) {
             return false;
         }
-
         userMapper.createUser(email, username, password);
         return true;
     }
 
-    public boolean login(User user) {
 
+    public boolean login(String nameOrEmail, String password) {
+        String emailPattern = "^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$";
+        boolean isEmail = Pattern.compile(emailPattern).matcher(nameOrEmail).matches();
+        String realPassword = userMapper.getPasswordByEmailOrName(nameOrEmail, isEmail);
+        if (realPassword == null) {
+            return false;
+        } else {
+            return encryptService.checkPassword(password, realPassword);
+        }
     }
 }
