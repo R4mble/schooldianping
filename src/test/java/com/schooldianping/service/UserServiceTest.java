@@ -20,11 +20,13 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
 
+    private User[] userList;
+
     private User user;
 
     @Before
     public void setUp() {
-        user = new User(1, "hanbin@lol.com", "aixi", "shesheshe", "cool", 23);
+        user = new User("hanbin@lol.com", "aixi", "shesheshe");
     }
 
 

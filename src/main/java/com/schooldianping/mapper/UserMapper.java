@@ -47,8 +47,8 @@ public interface UserMapper {
      * @param isEmail 是不是email
      * @return 密码或者空
      */
-    String getPasswordByEmail(String Email);
+    User getPasswordByEmail(String Email);
 
 
-    String getPasswordByName(String name);
+    User getPasswordByName(String name);
 }

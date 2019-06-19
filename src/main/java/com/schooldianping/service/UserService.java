@@ -1,5 +1,7 @@
 package com.schooldianping.service;
 
+import com.schooldianping.exception.UserNotExistException;
+import com.schooldianping.exception.WrongPasswordException;
 import com.schooldianping.mapper.UserMapper;
 import com.schooldianping.model.User;
 import com.schooldianping.util.CommonUtils;
@@ -18,15 +20,12 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private EncryptService encryptService;
-
     public boolean createUser(String email, String username, String password) {
         boolean alreadyExists = userMapper.checkDuplicate(email, username);
         if (alreadyExists) {
             return false;
         }
-        userMapper.createUser(email, username, encryptService.encrypt(password));
+        userMapper.createUser(email, username, CommonUtils.encrypt(password));
         return true;
     }
 
@@ -35,21 +34,25 @@ public class UserService {
     }
 
 
-    public boolean login(String nameOrEmail, String password) {
+    public User login(String nameOrEmail, String password) {
 
-        String realPassword = null;
+        User user = CommonUtils.isEmail(nameOrEmail) ?
+                        userMapper.getPasswordByEmail(nameOrEmail) :
+                        userMapper.getPasswordByName(nameOrEmail);
 
-        if (CommonUtils.isEmail(nameOrEmail)) {
-            realPassword = userMapper.getPasswordByEmail(nameOrEmail);
-        } else {
-            realPassword = userMapper.getPasswordByName(nameOrEmail);
+        if (user == null) {
+            throw new UserNotExistException();
         }
-        if (realPassword == null) {
-            return false;
-        } else {
-            return encryptService.checkPassword(password, realPassword);
+
+        boolean pass = CommonUtils.checkPassword(password, user.getPassword());
+
+        if (!pass) {
+            throw new WrongPasswordException();
         }
+
+        return user;
     }
+
 
     public List<User> getUserList(List<Integer> uidList) {
 

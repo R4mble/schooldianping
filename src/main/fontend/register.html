@@ -7,25 +7,35 @@
     </head>
 
     <body>
-            <b>用户登录</b>
-                用户名或邮箱<input type="text" id="nameOrEmail"><br>
+            <b>用户注册</b><br>
+                邮箱<input type="text" id="email"><br>
+                用户名<input type="text" id="name"><br>
                   密码<input type="password" id="password"><br>
-                    <button id="login">登录</button>
+                    <button id="register">注册</button>
     </body>
 
     <script>
-            //发送表单ajax请求
-    $("#login").click(function(){
-        nameOrEmail = $("#nameOrEmail").val()
+    $("#register").click(function(){
+        email = $("#email").val()
+        name = $("#name").val()
         password = $("#password").val()
+        user = {user: {}}
+        user.user.email = email
+        user.user.username = name
+        user.user.password = password
         $.ajax({
-            url:"http://localhost:10086/users/login",
+            url:"http://localhost:10086/users",
             type:"POST",
-            data: "nameOrEmail=" + nameOrEmail + "&" + "password=" + password,
+            data: JSON.stringify(user),
+            contentType: "application/json",
             success:function(){
-                alert("成功");
+                
             }
         });
+    });
+
+    $("#register").click(function(){
+        
     });
 
     </script>

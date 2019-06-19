@@ -13,13 +13,13 @@
         select count(*) > 0 from users where email = #{email} or username = #{username}
     </select>
 
-    <select id="getPasswordByEmail" resultType="string">
-        select password from users
+    <select id="getPasswordByEmail" resultType="com.schooldianping.model.User">
+        select * from users
                 where email = #{email}
     </select>
 
-    <select id="getPasswordByName" resultType="string">
-        select password from users
+    <select id="getPasswordByName" resultType="com.schooldianping.model.User">
+        select * from users
         where username = #{name}
     </select>
 
