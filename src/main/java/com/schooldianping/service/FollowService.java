@@ -1,12 +1,20 @@
 package com.schooldianping.service;
 
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.schooldianping.mapper.FollowMapper;
 import com.schooldianping.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonComponent;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author Ramble
+ */
 @Service
 public class FollowService {
 
@@ -16,17 +24,21 @@ public class FollowService {
     @Autowired
     private UserService userService;
 
-    public boolean follow(Integer id, Integer toId) {
+    public ResponseEntity follow(Integer id, Integer toId) {
         if (followAnyone(id)) {
-            return followMapper.addFollow(id, toId);
+            if (alreadyFollowing(id, toId)) {
+                return ResponseEntity.ok("你已关注用户" + userService.getUserById(id).getUsername());
+            }
+            followMapper.addFollow(id, toId);
+            return ResponseEntity.status(200).body("成功关注用户" + userService.getUserById(id).getUsername());
         }
-        return followMapper.createFollow(id, toId);
+        followMapper.createFollow(id, toId);
+        return ResponseEntity.status(200).body("成功关注用户" + userService.getUserById(id).getUsername());
     }
 
     public List<User> followingList(Integer id) {
         List<Integer> uidList = followMapper.followingList(id);
-        userService.getUserList(uidList);
-
+        return userService.getUserList(uidList);
     }
 
     public boolean followAnyone(Integer id) {
@@ -34,6 +46,10 @@ public class FollowService {
     }
 
     public boolean deleteFollowing(Integer id, Integer toId) {
-        return followMapper.deleteFollowing
+        return followMapper.deleteFollowing(id, toId);
+    }
+
+    public boolean alreadyFollowing(Integer id, Integer toId) {
+        return followMapper.alreadyFollowing(id, toId);
     }
 }

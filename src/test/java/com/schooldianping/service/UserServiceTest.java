@@ -1,4 +1,4 @@
-package com.schooldianping.mapper;
+package com.schooldianping.service;
 
 import com.schooldianping.model.User;
 import org.junit.Before;
@@ -15,10 +15,10 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserMapperTest {
+public class UserServiceTest {
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     private User user;
 
@@ -29,24 +29,21 @@ public class UserMapperTest {
 
 
     @Test
-    public void findById() {
-        User a = userMapper.findById(1);
-        assertEquals(a.getEmail(), "ying@fads.com");
-
-    }
-
-    @Test
     public void createUser() {
-        userMapper.createUser(user.getEmail(), user.getUsername(), user.getPassword());
+        userService.createUser(user.getEmail(), user.getUsername(), user.getPassword());
     }
 
     @Test
-    public void checkDuplicate() {
-        assertTrue(userMapper.checkDuplicate("ying@fads.com", "fdsa"));
-        assertFalse(userMapper.checkDuplicate("yidng@fads.com", "fddsa"));
+    public void getUserById() {
     }
 
     @Test
-    public void getPasswordByEmailOrName() {
+    public void login() {
+        System.out.println(userService.login(user.getUsername(), user.getPassword()));
+        System.out.println(userService.login(user.getEmail(), user.getPassword()));
+    }
+
+    @Test
+    public void getUserList() {
     }
 }

@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 @JsonRootName(value = "user")
 public class User {
 
-    private String id;
+    private Integer id;
 
     @Email(message = "邮箱格式不对")
     private String email;

@@ -6,16 +6,22 @@
         select count(*) > 0 from user_attention where id = #{id};
     </select>
 
-    <select id="followingList">
+    <select id="followingList" resultType="Integer[]">
         select following from user_attention where id = #{id};
     </select>
 
     <update id="addFollow">
         update user_attention
-        set following = array_append(select following from user_attention where id = #{id}, #{toId})
+        set following = following || #{toId}
+        where id = #{id};
     </update>
 
     <insert id="createFollow">
-        insert into user_attention values(#{id}, #{toId});
+        insert into user_attention(id, following) values(#{id}, array[#{toId}]);
     </insert>
+
+    <select id="alreadyFollowing" resultType="boolean">
+        select count(*)>0 from user_attention where #{toId} = any(following) and id = #{id};
+    </select>
+
 </mapper>

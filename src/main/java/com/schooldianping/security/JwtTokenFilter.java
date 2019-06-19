@@ -1,6 +1,7 @@
 package com.schooldianping.security;
 
 import com.schooldianping.mapper.UserMapper;
+import com.schooldianping.repository.UserRepository;
 import com.schooldianping.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,7 +26,7 @@ import java.util.Optional;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Autowired
-    private UserMapper userMapper;
+    private UserRepository userRepository;
 
     @Autowired
     private JwtService jwtService;
@@ -39,7 +40,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         getTokenString(request.getHeader(header)).ifPresent(token -> {
             jwtService.getSubFromToken(token).ifPresent(id -> {
                 if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                    userMapper.findById(id).ifPresent(user -> {
+                    userRepository.findById(Integer.valueOf(id)).ifPresent(user -> {
                         UsernamePasswordAuthenticationToken authenticationToken =
                                 new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
                         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

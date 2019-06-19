@@ -3,6 +3,7 @@ package com.schooldianping.controller;
 import com.schooldianping.model.User;
 import com.schooldianping.service.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * @author Ramble
+ */
 @RestController
 public class FollowController {
 
@@ -17,7 +21,7 @@ public class FollowController {
     private FollowService followService;
 
     @PostMapping("/follow")
-    public boolean follow(@RequestParam Integer id, @RequestParam Integer toId) {
+    public ResponseEntity follow(@RequestParam Integer id, @RequestParam Integer toId) {
         return followService.follow(id, toId);
     }
 

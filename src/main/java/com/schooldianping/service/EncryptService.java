@@ -5,6 +5,8 @@ import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+import sun.security.rsa.RSASignature;
 
 /**
  * @author Ramble
@@ -16,10 +18,10 @@ public class EncryptService {
     private String secret;
 
     String encrypt(String password) {
-        return MD5Encoder.encode((password + secret).getBytes());
+        return DigestUtils.md5DigestAsHex((password + secret).getBytes());
     }
 
     boolean checkPassword(String checkedPassword, String realPassword) {
-        return MD5Encoder.encode((checkedPassword + secret).getBytes()).equals(realPassword);
+        return DigestUtils.md5DigestAsHex((checkedPassword + secret).getBytes()).equals(realPassword);
     }
 }

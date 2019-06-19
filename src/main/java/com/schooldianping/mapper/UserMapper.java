@@ -20,7 +20,7 @@ public interface UserMapper {
      * @param id 用户id
      * @return User
      */
-    Optional<User> findById(String id);
+    User findById(Integer id);
 
     /**
      * 创建用户
@@ -28,7 +28,6 @@ public interface UserMapper {
      * @param email 用户email
      * @param username 用户名
      * @param password 加密后的密码
-     * @return 状态
      */
     void createUser(@Param("email") String email, @Param("username") String username, @Param("password") String password);
 
@@ -48,5 +47,8 @@ public interface UserMapper {
      * @param isEmail 是不是email
      * @return 密码或者空
      */
-    String getPasswordByEmailOrName(@Param("nameOrEmail") String nameOrEmail, @Param("isEmail") boolean isEmail);
+    String getPasswordByEmail(String Email);
+
+
+    String getPasswordByName(String name);
 }

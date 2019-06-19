@@ -30,9 +30,12 @@ public class UserController {
 
     @Valid
     @PostMapping("/users/login")
-    public boolean userLogin(@NotBlank(message = "用户名或邮箱不能为空") @RequestParam String nameOrEmail,
+    public ResponseEntity userLogin(@NotBlank(message = "用户名或邮箱不能为空") @RequestParam String nameOrEmail,
                              @NotBlank(message = "密码不能为空") @RequestParam String password) {
-        return userService.login(nameOrEmail, password);
+        if (userService.login(nameOrEmail, password)) {
+            return ResponseEntity.ok("登录成功");
+        }
+        return ResponseEntity.badRequest().body("用户名或密码错误");
     }
 
 }

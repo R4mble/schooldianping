@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+            <b>用户登录</b>
+                用户名或邮箱<input type="text" id="nameOrEmail"><br>
+                  密码<input type="password" id="password"><br>
+                    <button id="login">登录</button>
+    </body>
+
+    <script>
+            //发送表单ajax请求
+    $("#login").click(function(){
+        nameOrEmail = $("#nameOrEmail").val()
+        password = $("#password").val()
+        $.ajax({
+            url:"http://localhost:10086/users/login",
+            type:"POST",
+            data: "nameOrEmail=" + nameOrEmail + "&" + "password=" + password,
+            success:function(){
+                alert("成功");
+            }
+        });
+    });
+
+    </script>
+</html>
